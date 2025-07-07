@@ -13,7 +13,7 @@ POST /movies-dynamic/_doc/2
   "title": "Movie B",
   "budget": 10000000
 }
-This will fail with a mapping conflict error, because budget was already mapped as a string (text), and now you’re sending a number.
+
 
 PUT /movies-fixed
 {
@@ -24,8 +24,7 @@ PUT /movies-fixed
     }
   }
 }
-
-Reindex valid documents (filter only numeric budget fields):
+Reindex valid documents :
 POST /_reindex
 {
   "source": {
@@ -38,6 +37,14 @@ POST /_reindex
   },
   "dest": {
     "index": "movies-fixed"
+  }
+}
+
+Check documents:
+GET movies-fixed/_search
+{
+  "query": {
+    "match_all": {}
   }
 }
 
