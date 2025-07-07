@@ -42,5 +42,4 @@ POST /movies-static/_doc/2
   "director": "Christopher Nolan"
 }
 
-If dynamic: true (default), it will be added automatically.
-If dynamic: strict (custom setting), you’ll get a mapping error.
+
