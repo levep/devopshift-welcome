@@ -1,6 +1,6 @@
 from elasticsearch import Elasticsearch, NotFoundError
 
-es = Elasticsearch()
+es = Elasticsearch(hosts=["http://localhost:9200"])
 
 # Create a test document
 doc = {
@@ -27,5 +27,5 @@ except NotFoundError:
 try:
     es.index(index="test-index", id=1, body=doc2['_source'], if_seq_no=doc2['_seq_no'], if_primary_term=doc2['_primary_term'])
     print("Doc2 updated successfully")
-except NotFoundError:
+except:
     print("Conflict with Doc2 update!")
