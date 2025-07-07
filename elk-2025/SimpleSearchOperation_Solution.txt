@@ -1,0 +1,18 @@
+# Match All Query
+GET movielens/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+# Search for movies with the title containing “Matrix” (using match on the title field):
+GET movielens/_search
+{
+  "query": {
+    "match": {
+      "title": "Matrix"
+    }
+  }
+}
+
