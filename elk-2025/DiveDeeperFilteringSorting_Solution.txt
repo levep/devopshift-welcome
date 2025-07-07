@@ -1,0 +1,48 @@
+Search for movies in the "Action" genre released after 2000.
+GET movielens/_search
+{
+  "query": {
+    "bool": {
+      "must": {
+        "match": {
+          "genre": "Action"
+        }
+      },
+      "filter": {
+        "range": {
+          "release_year": {
+            "gt": "2000"
+          }
+        }
+      }
+    }
+  }
+}
+
+Same as above, but sorted by release_date descending
+GET movielens/_search
+{
+  "query": {
+    "bool": {
+      "must": {
+        "match": {
+          "genre": "Action"
+        }
+      },
+      "filter": {
+        "range": {
+          "release_year": {
+            "gt": "2000"
+          }
+        }
+      }
+    }
+  },
+  "sort": [
+    {
+      "release_year": {
+        "order": "desc"
+      }
+    }
+  ]
+}
