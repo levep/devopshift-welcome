@@ -1,0 +1,118 @@
+Analyzer:
+
+GET _analyze
+{
+  "analyzer": "standard",
+  "text": "The Quick Brown Fox, jumped over the lazy Dog."
+}
+
+GET _analyze
+{
+  "analyzer": "simple",
+  "text": "The Quick Brown Fox, jumped over the lazy Dog."
+}
+
+GET _analyze
+{
+  "analyzer": "whitespace",
+  "text": "The Quick Brown Fox, jumped over the lazy Dog."
+}
+
+GET _analyze
+{
+  "analyzer": "stop",
+  "text": "The Quick Brown Fox, jumped over the lazy Dog."
+}
+
+GET _analyze
+{
+  "analyzer": "keyword",
+  "text": "The Quick Brown Fox, jumped over the lazy Dog."
+}
+
+GET _analyze
+{
+  "tokenizer": "pattern",
+  "text": "foo-bar-baz",
+  "params": {
+    "pattern": "-"
+  }
+}
+
+---
+Update by query:
+
+PUT /products
+{
+  "mappings": {
+    "properties": {
+      "name": { "type": "text" },
+      "category": { "type": "keyword" },
+      "price": { "type": "float" },
+      "available": { "type": "boolean" }
+    }
+  }
+}
+
+POST /products/_bulk
+{ "index": { "_id": 1 }}
+{ "name": "Laptop Pro", "category": "electronics", "price": 1200.0, "available": true }
+{ "index": { "_id": 2 }}
+{ "name": "Smartphone X", "category": "electronics", "price": 800.0, "available": true }
+{ "index": { "_id": 3 }}
+{ "name": "Office Chair", "category": "furniture", "price": 150.0, "available": true }
+{ "index": { "_id": 4 }}
+{ "name": "Standing Desk", "category": "furniture", "price": 400.0, "available": true }
+
+POST /products/_update_by_query
+{
+  "query": {
+    "term": {
+      "category": "furniture"
+    }
+  },
+  "script": {
+    "source": "ctx._source.available = false"
+  }
+}
+
+GET /products/_search
+{
+  "query": {
+    "term": {
+      "category": "furniture"
+    }
+  }
+}
+
+---
+Delete by query:
+
+PUT /inventory
+{
+  "mappings": {
+    "properties": {
+      "product": { "type": "text" },
+      "status": { "type": "keyword" }
+    }
+  }
+}
+
+POST /inventory/_bulk
+{ "index": { "_id": 1 }}
+{ "product": "Keyboard", "status": "active" }
+{ "index": { "_id": 2 }}
+{ "product": "Mouse", "status": "inactive" }
+{ "index": { "_id": 3 }}
+{ "product": "Monitor", "status": "inactive" }
+
+POST /inventory/_delete_by_query
+{
+  "query": {
+    "term": {
+      "status": "inactive"
+    }
+  }
+}
+
+GET /inventory/_search
