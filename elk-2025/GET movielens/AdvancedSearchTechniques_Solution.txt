@@ -1,0 +1,51 @@
+Find movies that are in "Sci-Fi" or "Fantasy" genre and have a rating > 8
+
+GET movielens/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "range": {
+            "rating": {
+              "gt": 8
+            }
+          }
+        }
+      ],
+      "should": [
+        {
+          "match": {
+            "genre": "Sci-Fi"
+          }
+        },
+        {
+          "match": {
+            "genre": "Fantasy"
+          }
+        }
+      ]
+    }
+  }
+}
+
+Find movies that fall into both "Action" and "Adventure" genres (assuming genre is an array field)
+GET movielens/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "genre.keyword": "Action"
+          }
+        },
+        {
+          "term": {
+            "genre.keyword": "Adventure"
+          }
+        }
+      ]
+    }
+  }
+}
