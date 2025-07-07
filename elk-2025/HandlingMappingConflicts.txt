@@ -1,0 +1,44 @@
+Create index with dynamic mapping (no predefined types)
+PUT /movies-dynamic
+
+Index a movie where field budget is a text
+POST /movies-dynamic/_doc/1
+{
+  "title": "Movie A",
+  "budget": "ten million"
+}
+
+POST /movies-dynamic/_doc/2
+{
+  "title": "Movie B",
+  "budget": 10000000
+}
+This will fail with a mapping conflict error, because budget was already mapped as a string (text), and now you’re sending a number.
+
+PUT /movies-fixed
+{
+  "mappings": {
+    "properties": {
+      "title":  { "type": "text" },
+      "budget": { "type": "float" }
+    }
+  }
+}
+
+Reindex valid documents (filter only numeric budget fields):
+POST /_reindex
+{
+  "source": {
+    "index": "movies-dynamic",
+    "query": {
+      "range": {
+        "budget": { "gte": 0 }
+      }
+    }
+  },
+  "dest": {
+    "index": "movies-fixed"
+  }
+}
+
+
