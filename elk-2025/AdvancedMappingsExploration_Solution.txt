@@ -1,0 +1,46 @@
+Index a movie without a predefined mapping
+PUT /movies-dynamic/_doc/1
+{
+  "title": "The Matrix",
+  "year": 1999,
+  "rating": 8.7
+}
+
+Check the auto-generated mapping
+GET /movies-dynamic/_mapping
+
+Create a new index with predefined mappings
+PUT /movies-static
+{
+  "mappings": {
+    "properties": {
+      "title":  { "type": "text" },
+      "year":   { "type": "integer" },
+      "rating": { "type": "float" }
+    }
+  }
+}
+
+Index the same movie into the statically mapped index
+POST /movies-static/_doc/1
+{
+  "title": "The Matrix",
+  "year": 1999,
+  "rating": 8.7
+}
+
+Compare mappings side-by-side
+GET /movies-dynamic/_mapping
+GET /movies-static/_mapping
+
+Try inserting an extra field not in the static mapping
+POST /movies-static/_doc/2
+{
+  "title": "Inception",
+  "year": 2010,
+  "rating": 8.8,
+  "director": "Christopher Nolan"
+}
+
+If dynamic: true (default), it will be added automatically.
+If dynamic: strict (custom setting), you’ll get a mapping error.
