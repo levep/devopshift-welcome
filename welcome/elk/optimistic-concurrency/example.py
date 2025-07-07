@@ -1,6 +1,9 @@
 from elasticsearch import Elasticsearch, NotFoundError
 
-es = Elasticsearch(hosts=["http://localhost:9200"])
+es = Elasticsearch(
+    hosts=["http://localhost:9200"],
+    basic_auth=("elastic", "changeme")
+    )
 
 # Create a test document
 doc = {
