@@ -1,0 +1,135 @@
+Lab: Advanced Index Creation (Solution)
+
+Create Indices:
+
+# movielens_text — title as text
+PUT /movielens_text
+{
+  "mappings": {
+    "properties": {
+      "title": {
+        "type": "text"
+      }
+    }
+  }
+}
+
+# movielens_keyword — title as keyword
+PUT /movielens_keyword
+{
+  "mappings": {
+    "properties": {
+      "title": {
+        "type": "keyword"
+      }
+    }
+  }
+}
+
+# movielens_mixed — title as text with keyword subfield
+PUT /movielens_mixed
+{
+  "mappings": {
+    "properties": {
+      "title": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      }
+    }
+  }
+}
+
+Index Sample Document:
+
+POST /movielens_text/_doc/1
+{
+  "title": "Kingsglaive: Final Fantasy XV"
+}
+
+POST /movielens_keyword/_doc/1
+{
+  "title": "Kingsglaive: Final Fantasy XV"
+}
+
+POST /movielens_mixed/_doc/1
+{
+  "title": "Kingsglaive: Final Fantasy XV"
+}  
+
+Compare Search Queries:
+
+#  Full-text Search (works on text, fails on keyword)
+GET /movielens_text/_search
+{
+  "query": {
+    "match": {
+      "title": "final fantasy"
+    }
+  }
+}
+
+GET /movielens_keyword/_search
+{
+  "query": {
+    "match": {
+      "title": "final fantasy"
+    }
+  }
+}  
+
+# Exact Match (term query)
+
+GET /movielens_keyword/_search
+{
+  "query": {
+    "term": {
+      "title": {
+        "value": "Kingsglaive: Final Fantasy XV"
+      }
+    }
+  }
+}
+
+GET /movielens_text/_search
+{
+  "query": {
+    "term": {
+      "title": {
+        "value": "Kingsglaive: Final Fantasy XV"
+      }
+    }
+  }
+}
+
+# movielens_mixed – use both!
+
+GET /movielens_mixed/_search
+{
+  "query": {
+    "match": {
+      "title": "final fantasy"
+    }
+  }
+}
+
+GET /movielens_mixed/_search
+{
+  "query": {
+    "term": {
+      "title.keyword": {
+        "value": "Kingsglaive: Final Fantasy XV"
+      }
+    }
+  }
+}
+
+Check Settings:
+GET /movielens_text/_settings
+GET /movielens_keyword/_settings
+GET /movielens_mixed/_settings
+  
+  
