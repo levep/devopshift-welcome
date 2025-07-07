@@ -1,0 +1,28 @@
+ Index with manual ID
+
+PUT /movielens/_doc/1
+{
+  "title": "Inception",
+  "year": 2010,
+  "genres": ["Action", "Sci-Fi"]
+}
+
+POST /movielens/_doc
+{
+  "title": "Inception",
+  "year": 2010,
+  "genres": ["Action", "Sci-Fi"]
+}
+
+Elasticsearch will return a response like:
+{
+  "_index": "movielens",
+  "_id": "8G6Ryo8By8XVMdMSxfMt",    ← This is the auto-generated ID
+  ...
+}
+
+Retrieve both documents
+GET /movielens/_doc/1
+
+GET /movielens/_doc/8G6Ryo8By8XVMdMSxfMt
+Use the _id returned from previos step
