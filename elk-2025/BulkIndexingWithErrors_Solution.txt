@@ -1,0 +1,18 @@
+POST /movielens/_bulk
+{ "index": { "_index": "movielens", "_id": "1" } }
+{ "title": "Inception", "year": 2010, "genres": ["Action", "Sci-Fi"] }
+{ "index": { "_index": "movielens", "_id": "2" } }
+{ "title": "Interstellar", "year": 2014, "genres": ["Adventure", "Drama", "Sci-Fi"] }
+{ "index": { "_index": "movielens", "_id": "3" } }
+{ "title": "Arrival", "year": "Two Thousand Sixteen", "genres": ["Drama", "Sci-Fi"] } 
+{ "index": { "_index": "movielens", "_id": "4" } }
+{ "title": "The Matrix", "year": 1999, "genres": ["Action", "Sci-Fi"] }
+{ "index": { "_index": "movielens", "_id": "5" } }
+{ "title": "Blade Runner 2049", "year": 2017, "genres": ["Action", "Drama", "Sci-Fi"] }
+
+Observe Error and Fix It
+{ "index": { "_index": "movielens", "_id": "3" } }
+{ "title": "Arrival", "year": 2016, "genres": ["Drama", "Sci-Fi"] }
+
+Submit again using the same _bulk API.
+
