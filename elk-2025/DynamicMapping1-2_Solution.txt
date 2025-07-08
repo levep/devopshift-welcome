@@ -1,0 +1,26 @@
+POST /dynamic_test/_doc
+{
+  "username": "john_doe",
+  "last_login": "2023-05-10T12:00:00Z"
+}
+
+GET dynamic_test/_mapping
+
+===
+PUT /dynamic_strict
+{
+  "mappings": {
+    "dynamic": "strict",
+    "properties": {
+      "username": {
+        "type":"keyword"
+      }
+    }
+  }
+}
+
+POST /dynamic_strict/_doc
+{
+  "username": "john_doe",
+  "last_login": "2023-05-10T12:00:00Z"
+}
