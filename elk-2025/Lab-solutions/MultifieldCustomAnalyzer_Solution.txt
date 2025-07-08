@@ -1,0 +1,82 @@
+PUT /my_custom_analyzer
+{
+  "settings": {
+    "analysis": {
+      "tokenizer": {
+        "my_custom_tokenizer": {
+          "type": "standard",
+          "max_token_length": 5
+        }
+      },
+      "char_filter": {
+        "my_custom_char_filter": {
+          "type": "mapping",
+          "mappings": ["& => and"]
+        }
+      },
+      "analyzer": {
+        "my_custom_analyzer": {
+          "type": "custom",
+          "tokenizer": "my_custom_tokenizer",
+          "char_filter": ["my_custom_char_filter"],
+          "filter": ["lowercase"]
+        }
+      }
+    }
+  }
+}
+
+
+# Observe how Elasticsearch tokenizes and analyzes the given text using your custom analyzer 
+PUT /new_index_with_analyzer
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "my_custom_analyzer": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": ["lowercase"]
+        }
+      }
+    }
+  }
+}
+
+
+POST /new_index_with_analyzer/_analyze
+{
+  "analyzer": "my_custom_analyzer",
+  "text": "The QUICK Brown Fox & Jumped"
+}
+
+DELETE new_index_with_analyzer
+
+===
+Crafting a Multi-Field with Custom Analyzer
+
+PUT /movies_custom
+{
+    "settings": {
+        "analysis": {
+            "char_filter": { "replace_ampersands": { "type": "mapping", "mappings": ["&=>and"] } },
+            "tokenizer": { "custom_whitespace": { "type": "whitespace", "max_token_length": 5 } },
+            "analyzer": { "custom_analyzer": { "type": "custom", "tokenizer": "custom_whitespace", "char_filter": ["replace_ampersands"], "filter": ["lowercase"] } }
+        }
+    },
+    "mappings": { "properties": { "title": { "type": "text", "analyzer": "custom_analyzer", "fields": { "raw": { "type": "keyword" } } } } }
+}
+
+POST /movies_custom/_doc/1
+{
+  "title": "Fish & Chips: A British Tale"
+}
+
+GET /movies_custom/_search
+{
+  "query": {
+    "match": {
+      "title": "Fish and Chips"
+    }
+  }
+}
