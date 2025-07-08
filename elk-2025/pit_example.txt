@@ -1,0 +1,40 @@
+# PIT session with search_after example
+
+POST /kibana_sample_data_ecommerce/_pit?keep_alive=5m
+
+POST /_search
+{
+  "size": 5,
+  "pit": {
+    "id": "s9C1AwEca2liYW5hX3NhbXBsZV9kYXRhX2Vjb21tZXJjZRZEbUNqRGFTbVNETzg5MGYwRm1rMjlnABZuam5oMUhKeFJHT2dRaE1CdERoLXVBAAAAAAAAAI1SFlZycU1waGNNUV9pYlpiMGk1YWVLOVEAARZEbUNqRGFTbVNETzg5MGYwRm1rMjlnAAA=",
+    "keep_alive": "1m"
+  },
+  "sort": [
+    { "order_date": "asc" },
+    { "_shard_doc": "asc" }
+
+  ]
+}
+
+
+
+POST /_search
+{
+  "size": 5,
+  "pit": {
+    "id": "s9C1AwEca2liYW5hX3NhbXBsZV9kYXRhX2Vjb21tZXJjZRZEbUNqRGFTbVNETzg5MGYwRm1rMjlnABZuam5oMUhKeFJHT2dRaE1CdERoLXVBAAAAAAAAAI1SFlZycU1waGNNUV9pYlpiMGk1YWVLOVEAARZEbUNqRGFTbVNETzg5MGYwRm1rMjlnAAA=",
+    "keep_alive": "1m"
+  },
+  "sort": [
+    { "order_date": "asc" },
+    { "_shard_doc": "asc" }
+  ],
+  "search_after": [1750910774000, 137]
+}
+
+
+
+DELETE /_pit
+{
+  "id": "s9C1AwEca2liYW5hX3NhbXBsZV9kYXRhX2Vjb21tZXJjZRZEbUNqRGFTbVNETzg5MGYwRm1rMjlnABZuam5oMUhKeFJHT2dRaE1CdERoLXVBAAAAAAAAAI1SFlZycU1waGNNUV9pYlpiMGk1YWVLOVEAARZEbUNqRGFTbVNETzg5MGYwRm1rMjlnAAA="
+}
