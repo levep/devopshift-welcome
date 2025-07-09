@@ -1,1 +1,14 @@
+Class labs:
+----------
 https://docs.google.com/spreadsheets/d/1-fDViIl5xWK8z-1OumJXYKtPVQARR6OMMST7GRWtGPI/edit?usp=sharing
+
+Elastic VectorDB:
+----------------
+https://www.elastic.co/search-labs/blog/vector-search-set-up-elasticsearch
+
+
+RAG system with Elastic:
+------------------------
+https://www.elastic.co/search-labs/blog/building-a-rag-system-with-gemma-hugging-face-elasticsearch
+
+
